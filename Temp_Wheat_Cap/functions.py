@@ -142,7 +142,7 @@ def get_percentage_of_yellow_pixels(image):
     return float(np.sum(yellow_mask)) / 255 / (1024 * 1024)
 
 
-# Loop through dataframe to determing green pixel intensity percentage
+# Loop through dataframe to determine green pixel intensity percentage
 # per image and add green_pixel column
 
 def add_green_pixels_percentage(df):
@@ -160,7 +160,7 @@ def add_green_pixels_percentage(df):
     return df
 
 
-# Loop through dataframe to determing yellow intensity per image and add
+# Loop through dataframe to determine yellow intensity per image and add
 # yellow_pixel column
 
 def add_yellow_pixels_percentage(df):
