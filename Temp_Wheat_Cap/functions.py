@@ -211,3 +211,61 @@ def find_mean_img(full_mat, title, size = (1024, 1024)):
     plt.axis('off')
     plt.show()
     return mean_img
+
+# Return mean value of all yellow pixel values per image
+
+def get_mean_of_yellow_pixels(image):
+    # convert to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # get the green mask
+    hsv_lower = (25, 40, 40)
+    hsv_higher = (35, 255, 255)
+    yellow_mask = cv2.inRange(hsv, hsv_lower, hsv_higher)
+
+    return float(np.mean(yellow_mask))
+
+# Return standard deviation of all yellow pixel values per image
+
+def get_std_of_yellow_pixels(image):
+    # convert to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # get the green mask
+    hsv_lower = (25, 40, 40)
+    hsv_higher = (35, 255, 255)
+    yellow_mask = cv2.inRange(hsv, hsv_lower, hsv_higher)
+
+    return float(np.std(yellow_mask))
+
+# Add mean of yellow pixel values to a given dataframe
+
+def add_mean_yellow_pixels(df):
+    yellow = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        yellow.append(get_mean_of_yellow_pixels(image))
+
+    yellow_df = pd.DataFrame(yellow)
+    yellow_df.columns = ['yellow_pixel_mean']
+    df = pd.concat([df, yellow_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', 'yellow_pixel_mean']
+
+    return df
+
+# Add standard deviation of yellow pixels per image to a given dataframe
+
+def add_std_yellow_pixels(df):
+    yellow = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        yellow.append(get_std_of_yellow_pixels(image))
+
+    yellow_df = pd.DataFrame(yellow)
+    yellow_df.columns = ['yellow_pixel_std']
+    df = pd.concat([df, yellow_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', 'yellow_pixel_std']
+
+    return df
