@@ -328,3 +328,29 @@ def add_std_green_pixels(df):
     df.columns = ['image_name', 'green_pixel_std']
 
     return df
+
+
+# Return standard deviation of brightness of all pixels in an image
+
+def get_std_brightness(image):
+    # convert to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # get average brightness
+    return np.array(gray).std()
+
+# Add standard deviation of brightness of each image to a given dataframe
+
+def add_std_brightness_column(df):
+    brightness_std = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        brightness_std.append(get_std_brightness(image))
+
+    brightness_std_df = pd.DataFrame(brightness_std)
+    brightness_std_df.columns = ['brightness_std']
+    df = pd.concat([df, brightness_std_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', 'brightness_std']
+
+    return df
