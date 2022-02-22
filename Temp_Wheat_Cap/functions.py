@@ -269,3 +269,62 @@ def add_std_yellow_pixels(df):
     df.columns = ['image_name', 'yellow_pixel_std']
 
     return df
+
+# Return mean value of all green pixel values per image
+
+def get_mean_of_green_pixels(image):
+    # convert to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # get the green mask
+    hsv_lower = (40, 40, 40)
+    hsv_higher = (70, 255, 255)
+    green_mask = cv2.inRange(hsv, hsv_lower, hsv_higher)
+
+    return float(np.mean(green_mask))
+
+
+# Return standard deviation of all green pixel values per image
+
+def get_std_of_green_pixels(image):
+    # convert to HSV
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+
+    # get the green mask
+    hsv_lower = (40, 40, 40)
+    hsv_higher = (70, 255, 255)
+    green_mask = cv2.inRange(hsv, hsv_lower, hsv_higher)
+
+    return float(np.std(green_mask))
+
+# Add mean of green pixel values to a given dataframe
+
+def add_mean_green_pixels(df):
+    green = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        green.append(get_mean_of_green_pixels(image))
+
+    green_df = pd.DataFrame(green)
+    green_df.columns = ['green_pixel_mean']
+    df = pd.concat([df, green_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', 'green_pixel_mean']
+
+    return df
+
+# Add standard deviation of yellow pixels per image to a given dataframe
+
+def add_std_green_pixels(df):
+    green = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        green.append(get_std_of_green_pixels(image))
+
+    green_df = pd.DataFrame(green)
+    green_df.columns = ['green_pixel_std']
+    df = pd.concat([df, green_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', 'green_pixel_std']
+
+    return df
