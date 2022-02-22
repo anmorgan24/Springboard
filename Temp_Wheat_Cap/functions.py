@@ -176,3 +176,38 @@ def add_yellow_pixels_percentage(df):
     df.columns = ['image_name', 'yellow_pixels']
 
     return df
+
+
+# convert image set to set of arrays
+
+def img2np(df, size = (64, 64)):
+    # iterating through each file
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        current_image = cv2.cvtColor(cv2.imread(str(data_dir / img_id)), cv2.COLOR_BGR2GRAY)
+
+        # covert image to a matrix
+        img_ts = np.squeeze(np.array(current_image))
+        # turn that into a vector / 1D array
+        img_ts = [img_ts.ravel()]
+        try:
+            # concatenate different images
+            full_mat = np.concatenate((full_mat, img_ts))
+        except UnboundLocalError:
+            # if not assigned yet, assign one
+            full_mat = img_ts
+    return full_mat
+
+
+# Determine mean image of a set of images and plot
+
+def find_mean_img(full_mat, title, size = (1024, 1024)):
+    # calculate the average
+    mean_img = np.mean(full_mat, axis = 0)
+    # reshape it back to a matrix
+    mean_img = mean_img.reshape(size)
+    plt.imshow(mean_img, vmin=0, vmax=255, cmap='Greys_r')
+    plt.title(f'{title}')
+    plt.axis('off')
+    plt.show()
+    return mean_img
