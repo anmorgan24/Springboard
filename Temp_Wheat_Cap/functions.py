@@ -354,3 +354,47 @@ def add_std_brightness_column(df):
     df.columns = ['image_name', 'brightness_std']
 
     return df
+
+# Return mean intensity of a specified color channel and image
+
+def get_mean_of_BGR_channel(image, channel_num):
+    channel_values = image[:,:,int(channel_num)]
+    return float(np.mean(channel_values))
+
+# Add column with mean intensity of a specified color channel for each image in a dataframe
+
+def add_mean_channel_column(df, channel_num, column_name):
+    channel = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        channel.append(get_mean_of_BGR_channel(image, channel_num))
+
+    channel_df = pd.DataFrame(channel)
+    channel_df.columns = [str(column_name)]
+    df = pd.concat([df, channel_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', str(column_name)]
+
+    return df
+
+# Return std intensity of a specified color channel and image
+
+def get_std_of_BGR_channel(image, channel_num):
+    channel_values = image[:,:,int(channel_num)]
+    return float(np.std(channel_values))
+
+# Add column with std intensity of a specified color channel for each image in a dataframe
+
+def add_std_channel_column(df, channel_num, column_name):
+    channel = []
+    for _, row in df.iterrows():
+        img_id = row.image_name
+        image = cv2.imread(str(data_dir / img_id))
+        channel.append(get_std_of_BGR_channel(image, channel_num))
+
+    channel_df = pd.DataFrame(channel)
+    channel_df.columns = [str(column_name)]
+    df = pd.concat([df, channel_df], ignore_index=True, axis=1)
+    df.columns = ['image_name', str(column_name)]
+
+    return df
