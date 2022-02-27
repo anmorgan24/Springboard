@@ -1,9 +1,6 @@
-# self-defined functions
-
-
-# Plot six random examples of images from each origin location
-
 def plot_six_by_origin(cl):
+    
+    '''Plot six random examples of images from each origin location'''
 
     #get six random indices belonging to the selected class
     indx = train[train['domain'] == cl].sample(6, axis=0).image_name.values
@@ -16,13 +13,15 @@ def plot_six_by_origin(cl):
         ax.imshow(PIL.Image.open(data_dir / indx[i]))
     fig.suptitle(cl, fontsize=18)
     plt.tight_layout()
-    plt.show()
+    plt.show()    
+ 
 
-
-
-# Take dataframe and image_name for which we want bounding boxes and return list of x, y, w, h
+    
 
 def get_all_bboxes(df, image_name):
+    
+    '''Take dataframe and image_name for which we want bounding boxes and return list of x, y, w, h'''
+    
     image_bounding_boxes = df[df.image_name == image_name]
 
     bounding_boxes = []
@@ -33,9 +32,11 @@ def get_all_bboxes(df, image_name):
 
 
 
-# Plot examples of random images with their bounding boxes
 
 def plot_image_examples(dataframe, rows = 3, cols = 3, title = 'Image examples', size = (10, 10)):
+    
+    '''Plot examples of random images with their bounding boxes'''
+    
     fig, axs = plt.subplots(rows, cols, figsize=size)
     for row in range(rows):
         for col in range(cols):
@@ -55,9 +56,12 @@ def plot_image_examples(dataframe, rows = 3, cols = 3, title = 'Image examples',
     plt.suptitle(title, fontsize = 18)
 
 
-# Plot rugplot at top of plot
 
+    
 def upper_rugplot(data, height=.03, ax=None, **kwargs):
+    
+    '''Plot rugplot at top of plot'''
+    
     from matplotlib.collections import LineCollection
     ax = ax or plt.gca()
     kwargs.setdefault("linewidth", 1)
@@ -69,9 +73,11 @@ def upper_rugplot(data, height=.03, ax=None, **kwargs):
 
 
 
-# Plot single image with all its bounding boxes
 
 def plot_image_with_bboxes(dataframe, img_name, title = 'Image examples', size = (5, 5)):
+    
+    '''Plot single image with all its bounding boxes'''
+    
     fig, ax = plt.subplots(figsize=size)
     img = Image.open(data_dir / img_name)
     ax.imshow(img)
@@ -86,9 +92,12 @@ def plot_image_with_bboxes(dataframe, img_name, title = 'Image examples', size =
     plt.suptitle(title, fontsize = 16)
 
 
-# Return array of pixel brightness for image
+
 
 def get_image_brightness(image):
+    
+    '''Return array of pixel brightness for image'''
+    
     # convert to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -96,10 +105,12 @@ def get_image_brightness(image):
     return np.array(gray).mean()
 
 
-# Loop through dataframe, determine brightness array for each image, add
-# corresponding brightness column to dataframe
+
 
 def add_brightness_column(df):
+    
+    '''Loop through dataframe, determine brightness array for each image, add corresponding brightness column to dataframe'''
+    
     brightness = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -114,9 +125,12 @@ def add_brightness_column(df):
     return df
 
 
-# Return the percentage of pixels that have high green intensity
+ 
 
 def get_percentage_of_green_pixels(image):
+    
+    '''Return the percentage of pixels that have high green intensity'''
+    
     # convert to HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -128,9 +142,12 @@ def get_percentage_of_green_pixels(image):
     return float(np.sum(green_mask)) / 255 / (1024 * 1024)
 
 
-# Return the percentage of pixels that have high yellow intensity
+
 
 def get_percentage_of_yellow_pixels(image):
+    
+    '''Return the percentage of pixels that have high yellow intensity'''
+    
     # convert to HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -142,10 +159,12 @@ def get_percentage_of_yellow_pixels(image):
     return float(np.sum(yellow_mask)) / 255 / (1024 * 1024)
 
 
-# Loop through dataframe to determine green pixel intensity percentage
-# per image and add green_pixel column
+
 
 def add_green_pixels_percentage(df):
+    
+    '''Loop through dataframe to determine green pixel intensity percentage per image and add green_pixel column'''
+    
     green = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -160,10 +179,12 @@ def add_green_pixels_percentage(df):
     return df
 
 
-# Loop through dataframe to determine yellow intensity per image and add
-# yellow_pixel column
+
 
 def add_yellow_pixels_percentage(df):
+    
+    '''Loop through dataframe to determine yellow intensity per image and add yellow_pixel column'''
+    
     yellow = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -178,9 +199,12 @@ def add_yellow_pixels_percentage(df):
     return df
 
 
-# convert image set to set of arrays
+
 
 def img2np(df, size = (64, 64)):
+    
+    '''Convert image set to set of arrays'''
+    
     # iterating through each file
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -199,9 +223,12 @@ def img2np(df, size = (64, 64)):
     return full_mat
 
 
-# Determine mean image of a set of images and plot
+
 
 def find_mean_img(full_mat, title, size = (1024, 1024)):
+    
+    '''Determine mean image of a set of images and plot'''
+    
     # calculate the average
     mean_img = np.mean(full_mat, axis = 0)
     # reshape it back to a matrix
@@ -212,9 +239,13 @@ def find_mean_img(full_mat, title, size = (1024, 1024)):
     plt.show()
     return mean_img
 
-# Return mean value of all yellow pixel values per image
+
+
 
 def get_mean_of_yellow_pixels(image):
+    
+    '''Return mean value of all yellow pixel values per image'''
+    
     # convert to HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -225,9 +256,13 @@ def get_mean_of_yellow_pixels(image):
 
     return float(np.mean(yellow_mask))
 
-# Return standard deviation of all yellow pixel values per image
+
+
 
 def get_std_of_yellow_pixels(image):
+    
+    '''Return standard deviation of all yellow pixel values per image'''
+    
     # convert to HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -238,9 +273,13 @@ def get_std_of_yellow_pixels(image):
 
     return float(np.std(yellow_mask))
 
-# Add mean of yellow pixel values to a given dataframe
+ 
 
+    
 def add_mean_yellow_pixels(df):
+    
+    '''Add mean of yellow pixel values to a given dataframe'''
+    
     yellow = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -254,9 +293,13 @@ def add_mean_yellow_pixels(df):
 
     return df
 
-# Add standard deviation of yellow pixels per image to a given dataframe
+ 
 
+    
 def add_std_yellow_pixels(df):
+    
+    '''Add standard deviation of yellow pixels per image to a given dataframe'''
+    
     yellow = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -270,9 +313,13 @@ def add_std_yellow_pixels(df):
 
     return df
 
-# Return mean value of all green pixel values per image
+ 
 
+    
 def get_mean_of_green_pixels(image):
+    
+    '''Return mean value of all green pixel values per image'''
+    
     # convert to HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -284,9 +331,12 @@ def get_mean_of_green_pixels(image):
     return float(np.mean(green_mask))
 
 
-# Return standard deviation of all green pixel values per image
+
 
 def get_std_of_green_pixels(image):
+    
+    '''Return standard deviation of all green pixel values per image'''
+    
     # convert to HSV
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
@@ -297,9 +347,12 @@ def get_std_of_green_pixels(image):
 
     return float(np.std(green_mask))
 
-# Add mean of green pixel values to a given dataframe
+ 
 
 def add_mean_green_pixels(df):
+    
+    '''Add mean of green pixel values to a given dataframe'''
+    
     green = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -313,9 +366,13 @@ def add_mean_green_pixels(df):
 
     return df
 
-# Add standard deviation of yellow pixels per image to a given dataframe
+
+
 
 def add_std_green_pixels(df):
+    
+    '''Add standard deviation of yellow pixels per image to a given dataframe'''
+    
     green = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -330,18 +387,24 @@ def add_std_green_pixels(df):
     return df
 
 
-# Return standard deviation of brightness of all pixels in an image
+
 
 def get_std_brightness(image):
+    
+    '''Return standard deviation of brightness of all pixels in an image'''
+    
     # convert to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # get average brightness
     return np.array(gray).std()
 
-# Add standard deviation of brightness of each image to a given dataframe
+ 
 
 def add_std_brightness_column(df):
+    
+    '''Add standard deviation of brightness of each image to a given dataframe'''
+    
     brightness_std = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -355,15 +418,23 @@ def add_std_brightness_column(df):
 
     return df
 
-# Return mean intensity of a specified color channel and image
+ 
 
+    
 def get_mean_of_BGR_channel(image, channel_num):
+    
+    '''Return mean intensity of a specified color channel and image'''
+    
     channel_values = image[:,:,int(channel_num)]
     return float(np.mean(channel_values))
 
-# Add column with mean intensity of a specified color channel for each image in a dataframe
+
+
 
 def add_mean_channel_column(df, channel_num, column_name):
+    
+    '''Add column with mean intensity of a specified color channel for each image in a dataframe'''
+    
     channel = []
     for _, row in df.iterrows():
         img_id = row.image_name
@@ -377,15 +448,23 @@ def add_mean_channel_column(df, channel_num, column_name):
 
     return df
 
-# Return std intensity of a specified color channel and image
+ 
 
+    
 def get_std_of_BGR_channel(image, channel_num):
+    
+    '''Return std intensity of a specified color channel and image'''
+    
     channel_values = image[:,:,int(channel_num)]
     return float(np.std(channel_values))
 
-# Add column with std intensity of a specified color channel for each image in a dataframe
+
+
 
 def add_std_channel_column(df, channel_num, column_name):
+    
+    '''Add column with std intensity of a specified color channel for each image in a dataframe'''
+    
     channel = []
     for _, row in df.iterrows():
         img_id = row.image_name
