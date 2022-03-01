@@ -432,7 +432,7 @@ def get_mean_of_BGR_channel(image, channel_num):
 
 
 def add_mean_channel_column(df, channel_num, column_name):
-    
+
     '''Add column with mean intensity of a specified color channel for each image in a dataframe'''
     
     channel = []
@@ -453,7 +453,7 @@ def add_mean_channel_column(df, channel_num, column_name):
     
 def get_std_of_BGR_channel(image, channel_num):
     
-    '''Return std intensity of a specified color channel and image'''
+    '''Return std of the intensity of a specified color channel and image'''
     
     channel_values = image[:,:,int(channel_num)]
     return float(np.std(channel_values))
@@ -463,7 +463,7 @@ def get_std_of_BGR_channel(image, channel_num):
 
 def add_std_channel_column(df, channel_num, column_name):
     
-    '''Add column with std intensity of a specified color channel for each image in a dataframe'''
+    '''Add column with std of the intensity of a specified color channel for each image in a dataframe'''
     
     channel = []
     for _, row in df.iterrows():
