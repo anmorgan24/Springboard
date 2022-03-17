@@ -9,12 +9,6 @@ import matplotlib.pyplot  as plt
 from matplotlib import rcParams
 from sklearn.utils import shuffle
 
-import tensorflow as tf 
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-
-
-
-
 def set_plot(size):
     
     """Sets style preferences and text sizes for matplotlib plots."""
