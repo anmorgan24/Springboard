@@ -28,7 +28,7 @@ def balance_df(df, label='label', class_size=1000):
     
     for i in range(n_classes):
         one_class = df[df[label] == i]
-        if len(one_class) >= 2000:
+        if len(one_class) >= class_size:
             replace=False
         else:
             replace=True
