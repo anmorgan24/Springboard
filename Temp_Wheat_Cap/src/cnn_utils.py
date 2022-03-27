@@ -75,7 +75,7 @@ def preprocess_df(df):
         row['BoxesString'] = list(row['BoxesString'].split(';'))
     df = df.explode('BoxesString')
     for i, row in df.iterrows():
-    row['BoxesString'] = list(row['BoxesString'].split(' '))
+        row['BoxesString'] = list(row['BoxesString'].split(' '))
     df.BoxesString = df.BoxesString.apply(lambda y: list('0 0 0 0'.split(" ")) if len(y)==1 else y)
     df_lst = list(df.BoxesString)
     for bbox_lst in df_lst:
@@ -89,5 +89,6 @@ def preprocess_df(df):
     df['bbox_ymax'] = bbox_height
     df.reset_index(inplace=True, drop=True)
     df = df.astype({'bbox_xmin': 'float', 'bbox_ymin': 'float', 'bbox_xmax': 'float', 'bbox_ymax': 'float'})
+    
 
 
