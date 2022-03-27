@@ -66,30 +66,49 @@ def balance_df(df, label='label', class_size=1000):
 # Transform and preprocess imported df
 
 def preprocess_df(df):
+    
+    """ Completes preprocessing steps on dataframe to account for column data type correction, bounding box transformations, 
+    exploding BoxesString column values, and image name corrections.
+    
+    Inputs
+    - df: name of DataFrame to be preprocessed.
+    Returns
+    - df: preprocessed version of DataFrame."""
+    
     bbox_xmin = []
     bbox_ymin = []
     bbox_width = []
     bbox_height = []
+    
     for i, row in df.iterrows():
         row['image_name'] = (row.image_name.split('.')[0]+'.jpg')
+        
     for i, row in df.iterrows():
         row['BoxesString'] = list(row['BoxesString'].split(';'))
+        
     df = df.explode('BoxesString')
+    
     for i, row in df.iterrows():
         row['BoxesString'] = list(row['BoxesString'].split(' '))
+        
     df.BoxesString = df.BoxesString.apply(lambda y: list('0 0 0 0'.split(" ")) if len(y)==1 else y)
+    
     df_lst = list(df.BoxesString)
+    
     for bbox_lst in df_lst:
         bbox_xmin.append(bbox_lst[0])
         bbox_ymin.append(bbox_lst[1])
         bbox_width.append(bbox_lst[2])
         bbox_height.append(bbox_lst[3])
+        
     df['bbox_xmin'] = bbox_xmin
     df['bbox_ymin'] = bbox_ymin
     df['bbox_xmax'] = bbox_width
     df['bbox_ymax'] = bbox_height
+    
     df.reset_index(inplace=True, drop=True)
     df = df.astype({'bbox_xmin': 'float', 'bbox_ymin': 'float', 'bbox_xmax': 'float', 'bbox_ymax': 'float'})
+    
     return df
     
 
