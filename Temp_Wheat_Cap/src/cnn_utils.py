@@ -73,8 +73,8 @@ def preprocess_df(df):
     for i, row in df.iterrows():
         row['image_name'] = (row.image_name.split('.')[0]+'.jpg')
         row['BoxesString'] = list(row['BoxesString'].split(';'))
-    df2 = df2.explode('BoxesString')
-    for i, row in df2.iterrows():
+    df = df.explode('BoxesString')
+    for i, row in df.iterrows():
     row['BoxesString'] = list(row['BoxesString'].split(' '))
     df.BoxesString = df.BoxesString.apply(lambda y: list('0 0 0 0'.split(" ")) if len(y)==1 else y)
     df_lst = list(df.BoxesString)
