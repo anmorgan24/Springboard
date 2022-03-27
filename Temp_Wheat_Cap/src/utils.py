@@ -9,6 +9,23 @@ import matplotlib.pyplot  as plt
 from matplotlib import rcParams
 from sklearn.utils import shuffle
 
+def set_plot(size):
+    
+    """Sets style preferences and text sizes for matplotlib plots."""
+    
+    rcParams['font.family'] = 'sans-serif'
+    rcParams['font.sans-serif'] = ['Arial']
+    rcParams['axes.grid']=False
+    rcParams['xtick.minor.visible']=True
+    rcParams['ytick.minor.visible']=True
+    rcParams['xtick.direction']='in'
+    rcParams['ytick.direction']='in'
+
+    plt.rc('axes', titlesize=size)  # fontsize of the axes title
+    plt.rc('axes', labelsize=size)    # fontsize of the x and y labels
+    plt.rc('xtick', labelsize=size*0.8)    # fontsize of the tick labels
+    plt.rc('ytick', labelsize=size*0.8)    # fontsize of the tick labels
+
 
 def balance_df(df, label='label', class_size=1000):
     
