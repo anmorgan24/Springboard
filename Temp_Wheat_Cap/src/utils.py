@@ -111,5 +111,23 @@ def preprocess_df(df):
     
     return df
     
+    
+def plot_batch(dfiterator, label_key=None):
+    
+    """Plots the next batch of images and labels in a keras dataframe iterator.
+    Inputs:
+    -dfiterator: keras dataframe iterator
+    -label_key: series or dictionary such that label_key[image_label] returns a class string."""
+    
+    bs = dfiterator.batch_size
+    images, labels = next(dfiterator)
+    cols = 4
+    rows = int(bs / cols) + int(bs % cols > 0)
+    fig, axes = plt.subplots(rows, cols, figsize=(16, 5 * rows))
+    axes = axes.flatten()
+    for i, (img, label) in enumerate(zip(images, labels)):
+        axes[i].imshow(img)
+        axes[i].axis('off')
+        axes[i].set_title(title)
 
 
