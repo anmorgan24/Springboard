@@ -1,6 +1,6 @@
 from utils import balance_df, plot_batch
 #from cutmix_keras import CutMixImageDataGenerator
-#from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 class ImageFromDFLoader(object):
     

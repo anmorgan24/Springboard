@@ -128,6 +128,6 @@ def plot_batch(dfiterator, label_key=None):
     for i, (img, label) in enumerate(zip(images, labels)):
         axes[i].imshow(img)
         axes[i].axis('off')
-        axes[i].set_title(title)
+        #axes[i].set_title(title)
 
 
