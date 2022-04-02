@@ -22,8 +22,14 @@ import cv2
 import random
 
 import os 
-#import glob
 import pathlib
+
+# The following file is refactored from an aggregation of code examples from the following sources:
+# https://www.kaggle.com/nvnnghia
+# https://www.kaggle.com/shonenkov
+# https://github.com/Lexie88rus
+# https://github.com/melanierbutler
+
 
 data_dir = pathlib.Path('gwhd_2021/images/')
 
