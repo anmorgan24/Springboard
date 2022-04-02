@@ -77,8 +77,8 @@ def preprocess_df(df):
     
     bbox_xmin = []
     bbox_ymin = []
-    bbox_width = []
-    bbox_height = []
+    bbox_xmax = []
+    bbox_ymax = []
     
     for i, row in df.iterrows():
         row['image_name'] = (row.image_name.split('.')[0]+'.jpg')
@@ -98,17 +98,20 @@ def preprocess_df(df):
     for bbox_lst in df_lst:
         bbox_xmin.append(bbox_lst[0])
         bbox_ymin.append(bbox_lst[1])
-        bbox_width.append(bbox_lst[2])
-        bbox_height.append(bbox_lst[3])
+        bbox_xmax.append(bbox_lst[2])
+        bbox_ymax.append(bbox_lst[3])
         
     df['bbox_xmin'] = bbox_xmin
     df['bbox_ymin'] = bbox_ymin
-    df['bbox_xmax'] = bbox_width
-    df['bbox_ymax'] = bbox_height
+    df['bbox_xmax'] = bbox_xmax
+    df['bbox_ymax'] = bbox_ymax
     
     df.reset_index(inplace=True, drop=True)
     df = df.astype({'bbox_xmin': 'float', 'bbox_ymin': 'float', 'bbox_xmax': 'float', 'bbox_ymax': 'float'})
     
+    df['bbox_width'] = df['bbox_xmax'] - df['bbox_xmin']
+    df['bbox_height'] = df['bbox_ymax'] - df['bbox_ymin']
+
     return df
     
     
