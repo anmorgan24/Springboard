@@ -117,9 +117,7 @@ class WheatDataset(Dataset):
 
     def __len__(self) -> int:
         return self.image_ids.shape[0]
-
-
-#cv2.imread(str(data_dir / img_id)
+        
 
     def load_image_and_boxes(self, index):
         image_id = self.image_ids[index]
