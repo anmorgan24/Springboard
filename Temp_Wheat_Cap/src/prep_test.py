@@ -80,6 +80,8 @@ def get_valid_transforms():
         )
     )
 
+
+
 class WheatDataset(Dataset):
 
     def __init__(self, labels_df, image_ids, transforms=None, test=False):
@@ -183,6 +185,7 @@ class WheatDataset(Dataset):
         return result_image, result_boxes
 
 
+
 class AverageMeter(object):
 
     """Computes and stores the average and current value"""
@@ -201,7 +204,6 @@ class AverageMeter(object):
         self.sum += val * n
         self.count += n
         self.avg = self.sum / self.count
-
 
 import warnings
 
@@ -364,6 +366,7 @@ class Fitter:
             logger.write(f'{message}\n')
 
 
+
 class TrainGlobalConfig:
     num_workers = 2
     batch_size = 4 
@@ -403,6 +406,7 @@ class TrainGlobalConfig:
         eps=1e-08
     )
     # --------------------
+
 
 
 def collate_fn(batch):
