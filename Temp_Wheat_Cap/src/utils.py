@@ -1,16 +1,16 @@
-# import packages
-import numpy as np
+# standard library imports # import packages
 import os
-import pandas as pd 
 import pathlib
+
+ 
+ # related third party imports
+import numpy as np
+import pandas as pd
 import PIL
 import PIL.Image
 import matplotlib.pyplot  as plt
 from matplotlib import rcParams
 from sklearn.utils import shuffle
-
-
-
 
 
 def set_plot(size):
