@@ -1,6 +1,6 @@
 from utils import balance_df, plot_batch
 #from cutmix_keras import CutMixImageDataGenerator
-#from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
 class ImageFromDFLoader(object):
     
@@ -138,4 +138,4 @@ class ImageFromDFLoader(object):
             gen = self.val_gen
         elif generator == 'eval':
             gen = self.eval_gen
-        plot_batch(gen, label_key=self.label_key)
+        plot_batch(gen, label_key=self.label_key, cutmix=self.cutmix)
