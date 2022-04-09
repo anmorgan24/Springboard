@@ -1,9 +1,9 @@
-# standard library imports # import packages
+# standard library imports
 import os
 import pathlib
 
  
- # related third party imports
+ # third party imports
 import numpy as np
 import pandas as pd
 import PIL
