@@ -438,3 +438,4 @@ def run_training():
 
     fitter = Fitter(model=net, device=device, config=TrainGlobalConfig)
     fitter.fit(train_loader, val_loader)
+
