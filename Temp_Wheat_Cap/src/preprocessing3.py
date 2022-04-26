@@ -279,11 +279,27 @@ class Fitter:
                 images = torch.stack(images)
                 batch_size = images.shape[0]
                 images = images.to(self.device).float()
+
+                target_res = {}
+
                 boxes = [target['boxes'].to(self.device).float() for target in targets]
                 labels = [target['labels'].to(self.device).float() for target in targets]
 
-                loss, _, _ = self.model(images, boxes, labels)
+                target_res['bbox'] = boxes
+                target_res['cls'] = labels
+
+                target_res['img_scale'] = torch.tensor([1.0] * batch_size, dtype = torch.float).to(self.device)
+                target_res['img_size'] = torch.tensor([images[0].shape[-2]] * batch_size, dtype=torch.float).to(self.device)
+
+                self.optimizer.zero_grad()
+
+                #loss, _, _ = self.model(images, boxes, labels)
                 summary_loss.update(loss.detach().item(), batch_size)
+
+                outputs = self.model(images, target_res)
+                loss = outputs['loss']
+
+                loss.backward()
 
         return summary_loss
 
@@ -303,12 +319,21 @@ class Fitter:
             images = torch.stack(images)
             images = images.to(self.device).float()
             batch_size = images.shape[0]
+            
+            target_res = {}
+            
             boxes = [target['boxes'].to(self.device).float() for target in targets]
             labels = [target['labels'].to(self.device).float() for target in targets]
             
+            target_res['bbox'] = boxes
+            target_res['cls'] = labels
+
+            outputs = self.model(images, target_res)
+            loss = outputs['loss']
+
             self.optimizer.zero_grad()
             
-            loss, _, _ = self.model(images, boxes, labels)
+            #loss, _, _ = self.model(images, boxes, labels)
             
             loss.backward()
 
